@@ -1,0 +1,18 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto';
+    height: 100%;
+    background: #f7f7f7;
+}
+
+div#root {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+}
