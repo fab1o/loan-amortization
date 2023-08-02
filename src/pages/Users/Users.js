@@ -18,9 +18,13 @@ function Users({ onUserSelect }) {
 
     useEffect(() => {
         async function getUsers() {
-            const users = await UserApi.getUsers();
+            try {
+                const users = await UserApi.getUsers();
 
-            setUsers(users);
+                setUsers(users);
+            } catch (ex) {
+                // TODO add error handling
+            }
         }
 
         getUsers();

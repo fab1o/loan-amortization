@@ -87,6 +87,11 @@ function App() {
                                 />
                                 <Route
                                     exact
+                                    path="/loan/:id"
+                                    element={<Loan user={user} />}
+                                />
+                                <Route
+                                    exact
                                     path="/loans"
                                     element={<Loans user={user} />}
                                 />

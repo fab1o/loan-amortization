@@ -1,12 +1,12 @@
 /**
- * @desc Create a user
+ * @desc Create a user.
  * @param {Object} loan
  * @param {Number} loan.amount
  * @param {Number} loan.apr
  * @param {Number} loan.term
  * @param {String} [loan.status='active']
  * @param {Number} loan.owner_id
- * @returns {Object} response
+ * @returns {Object}
  * @throws {Error}
  */
 async function createLoan(loan) {
@@ -37,9 +37,9 @@ async function createLoan(loan) {
 }
 
 /**
- * @desc Gets loans by userId
+ * @desc Gets loans by userId.
  * @param {Number} userId
- * @returns {Array} loans
+ * @returns {Array<Object>} loans
  * @throws {Error}
  */
 async function getLoansByUserId(userId) {
@@ -52,7 +52,7 @@ async function getLoansByUserId(userId) {
 }
 
 /**
- * @desc Share a loan
+ * @desc Share a loan.
  * @param {Object} loan
  * @param {Number} userId
  * @returns {Boolean}
@@ -73,7 +73,22 @@ async function shareLoan(loan, userId) {
 }
 
 /**
- * @desc Share loans
+ * @desc Gets loan schedule.
+ * @param {Number} loanId
+ * @param {Number} userId
+ * @returns {Array<Object>}
+ * @throws {Error}
+ */
+async function getLoanSchedule(loanId, userId) {
+    const url = `https://gl-interview.azurewebsites.net/loans/${loanId}?user_id=${userId}`;
+
+    const response = await fetch(url);
+
+    return await response.json();
+}
+
+/**
+ * @desc Share loans.
  * @param {Array<Object>} loans
  * @param {Number} userId
  * @returns {Boolean}
@@ -87,4 +102,4 @@ async function shareLoans(loans, userId) {
     return results.reduce((acc, curr) => acc && curr, true);
 }
 
-export { createLoan, getLoansByUserId, shareLoan, shareLoans };
+export { createLoan, getLoansByUserId, shareLoan, shareLoans, getLoanSchedule };

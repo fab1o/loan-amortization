@@ -7,7 +7,7 @@ features:
 - [x] Create a User
 - [x] Create a Loan
 - [x] Fetch all User’s Loans
-- [ ] Fetch the amortization term for a Loan
+- [x] Fetch the amortization term for a Loan
 - [x] Share a Loan with another User
 
 extras:

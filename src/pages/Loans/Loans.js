@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
     Alert,
@@ -15,6 +16,8 @@ import {
     Snackbar,
 } from '@mui/material';
 
+import { toCurrency } from '../utils';
+
 import * as UserApi from '../../api/user';
 import * as LoanApi from '../../api/loan';
 
@@ -25,18 +28,27 @@ function Loans({ user }) {
     const [userIdShare, setUserIdShare] = useState(1);
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getLoans() {
-            const data = await LoanApi.getLoansByUserId(user.id);
+            try {
+                const data = await LoanApi.getLoansByUserId(user.id);
 
-            setLoans(data);
+                setLoans(data);
+            } catch (ex) {
+                // TODO add error handling
+            }
         }
 
         async function getUsers() {
-            const data = await UserApi.getUsers();
+            try {
+                const data = await UserApi.getUsers();
 
-            setUsers(data);
+                setUsers(data);
+            } catch (ex) {
+                // TODO add error handling
+            }
         }
 
         if (user) {
@@ -45,13 +57,6 @@ function Loans({ user }) {
 
         getUsers();
     }, [user]);
-
-    function toCurrency(value, currency = 'USD') {
-        return value.toLocaleString('en-US', {
-            style: 'currency',
-            currency,
-        });
-    }
 
     async function handleShareButton() {
         const success = await LoanApi.shareLoans(selectedLoans, userIdShare);
@@ -85,6 +90,12 @@ function Loans({ user }) {
         setSelectedLoans(newSelected);
     }
 
+    function handleViewDetails(e) {
+        const id = e.target.getAttribute('data-loan-id');
+
+        navigate(`/loan/${id}`);
+    }
+
     function handleCloseAlert() {
         setOpenAlert(false);
     }
@@ -103,7 +114,11 @@ function Loans({ user }) {
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center" colSpan="5">
+                            <TableCell
+                                component="th"
+                                align="center"
+                                colSpan="5"
+                            >
                                 <FormControl
                                     sx={{
                                         margin: '0 10px 0 0',
@@ -138,6 +153,7 @@ function Loans({ user }) {
                                     Share
                                 </Button>
                             </TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell></TableCell>
@@ -145,6 +161,7 @@ function Loans({ user }) {
                             <TableCell>APR</TableCell>
                             <TableCell>Term</TableCell>
                             <TableCell>Status</TableCell>
+                            <TableCell>Details</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -155,7 +172,6 @@ function Loans({ user }) {
                                 return (
                                     <TableRow
                                         hover
-                                        key={loan.id}
                                         aria-checked={isItemSelected}
                                         selected={isItemSelected}
                                         onClick={() => handleLoanSelect(loan)}
@@ -172,6 +188,15 @@ function Loans({ user }) {
                                         <TableCell>{`${loan.apr}%`}</TableCell>
                                         <TableCell>{loan.term}</TableCell>
                                         <TableCell>{loan.status}</TableCell>
+                                        <TableCell>
+                                            <Button
+                                                data-loan-id={loan.id}
+                                                variant="contained"
+                                                onClick={handleViewDetails}
+                                            >
+                                                View
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}

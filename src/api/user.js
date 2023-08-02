@@ -1,5 +1,5 @@
 /**
- * @desc Create a user
+ * @desc Create a user.
  * @param {Object} user
  * @param {String} user.username
  * @returns {Object} response
@@ -26,9 +26,9 @@ async function createUser(user) {
 }
 
 /**
- * @desc Gets user by id
+ * @desc Gets user by id.
  * @param {Number} id
- * @returns {Object} user
+ * @returns {Object|null} user
  * @throws {Error}
  */
 async function getUser(id) {
@@ -41,7 +41,7 @@ async function getUser(id) {
 }
 
 /**
- * @desc Gets users
+ * @desc Gets users.
  * @returns {Array} users
  * @throws {Error}
  */
@@ -55,7 +55,7 @@ async function getUsers() {
 }
 
 /**
- * @desc Whether data is a valid user
+ * @desc Whether data is a valid user.
  * @param {Object} data
  * @returns {Boolean}
  * @throws {Error}
