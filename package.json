@@ -3,6 +3,10 @@
     "description": "Loan Amortization app in React",
     "version": "0.0.1",
     "private": true,
+    "author": {
+      "name": "Fabio Costa",
+      "url": "https://github.com/fab1o"
+    },
     "dependencies": {
         "@emotion/react": "^11.11.1",
         "@emotion/styled": "^11.11.0",
@@ -14,6 +18,9 @@
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.14.2",
         "react-scripts": "5.0.1"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
     },
     "scripts": {
         "start": "react-scripts start",
