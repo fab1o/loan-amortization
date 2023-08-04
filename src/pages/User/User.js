@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import { Button, TextField, Typography, Alert, Snackbar } from '@mui/material';
 
 import * as UserApi from '../../api/user';
 
 function User({ onUserSelect }) {
-    const [username, setUsername] = useState(null);
+    const usernameRef = useRef();
     const [alert, setAlert] = useState(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
 
         try {
-            const user = await UserApi.createUser({ username });
+            const user = await UserApi.createUser({
+                username: usernameRef.current.value,
+            });
 
             onUserSelect(user);
 
@@ -21,15 +23,12 @@ function User({ onUserSelect }) {
                 message: 'User has been created.',
             });
         } catch (ex) {
+            console.log(ex);
             setAlert({
                 type: 'error',
                 message: ex.message,
             });
         }
-    }
-
-    function handleChange(e) {
-        setUsername(e.target.value);
     }
 
     function handleCloseAlert() {
@@ -46,7 +45,7 @@ function User({ onUserSelect }) {
                     label="Username"
                     variant="standard"
                     helperText="Enter your username"
-                    onChange={handleChange}
+                    inputRef={usernameRef}
                 />
                 <Button type="submit" variant="contained">
                     Save
