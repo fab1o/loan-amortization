@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import Loan from './Loan';
+import Loan from '../../pages/Loan/Loan';
 
 test('Loan', () => {
     render(<Loan />);

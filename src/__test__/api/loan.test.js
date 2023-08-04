@@ -1,6 +1,4 @@
-import * as LoanApi from './loan';
-
-// todo: create mock instead
+import * as LoanApi from '../../api/loan';
 
 describe('LoanApi', () => {
     it('should get all loans', async () => {

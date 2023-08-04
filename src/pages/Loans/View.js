@@ -65,8 +65,8 @@ function View({ id, user }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {loanSchedule?.map((loan) => (
-                            <TableRow key={loan.id}>
+                        {loanSchedule?.map((loan, i) => (
+                            <TableRow key={i}>
                                 <TableCell>{loan.month}</TableCell>
                                 <TableCell>
                                     {toCurrency(loan.open_balance)}
