@@ -17,17 +17,25 @@ function Users({ onUserSelect }) {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
+        let update = true;
+
         async function getUsers() {
             try {
                 const users = await UserApi.getUsers();
 
-                setUsers(users);
+                if (update) {
+                    setUsers(users);
+                }
             } catch (ex) {
                 // TODO add error handling
             }
         }
 
         getUsers();
+
+        return () => {
+            update = false;
+        };
     }, []);
 
     return (

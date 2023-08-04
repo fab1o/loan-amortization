@@ -8,7 +8,7 @@ import Home from './pages/Home/Home';
 import User from './pages/User/User';
 import Users from './pages/Users/Users';
 import Loan from './pages/Loan/Loan';
-import Loans from './pages/Loans/Loans';
+import Container from './pages/Loans/Container';
 import NotFound from './pages/NotFound/NotFound';
 
 import './App.css';
@@ -87,13 +87,13 @@ function App() {
                                 />
                                 <Route
                                     exact
-                                    path="/loan/:id"
-                                    element={<Loan user={user} />}
+                                    path="/loans"
+                                    element={<Container user={user} />}
                                 />
                                 <Route
                                     exact
-                                    path="/loans"
-                                    element={<Loans user={user} />}
+                                    path="/loans/:id"
+                                    element={<Container user={user} />}
                                 />
                                 <Route path="*" element={<NotFound />} />
                             </Routes>

@@ -28,19 +28,10 @@ function Loans({ user }) {
     const [userIdShare, setUserIdShare] = useState(1);
     const [openAlert, setOpenAlert] = useState(false);
     const [alertType, setAlertType] = useState(null);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function getLoans() {
-            try {
-                const data = await LoanApi.getLoansByUserId(user.id);
-
-                setLoans(data);
-            } catch (ex) {
-                // TODO add error handling
-            }
-        }
-
         async function getUsers() {
             try {
                 const data = await UserApi.getUsers();
@@ -51,11 +42,31 @@ function Loans({ user }) {
             }
         }
 
+        getUsers();
+    }, []);
+
+    useEffect(() => {
+        let update = true;
+
+        async function getLoans() {
+            try {
+                const data = await LoanApi.getLoansByUserId(user.id);
+
+                if (update) {
+                    setLoans(data);
+                }
+            } catch (ex) {
+                // TODO add error handling
+            }
+        }
+
         if (user) {
             getLoans();
         }
 
-        getUsers();
+        return () => {
+            update = false;
+        };
     }, [user]);
 
     async function handleShareButton() {
@@ -93,7 +104,7 @@ function Loans({ user }) {
     function handleViewDetails(e) {
         const id = e.target.getAttribute('data-loan-id');
 
-        navigate(`/loan/${id}`);
+        navigate(`/loans/${id}`);
     }
 
     function handleCloseAlert() {
@@ -165,41 +176,40 @@ function Loans({ user }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {loans &&
-                            loans.map((loan) => {
-                                const isItemSelected =
-                                    selectedLoans.includes(loan);
-                                return (
-                                    <TableRow
-                                        hover
-                                        aria-checked={isItemSelected}
-                                        selected={isItemSelected}
-                                        onClick={() => handleLoanSelect(loan)}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            {toCurrency(loan.amount)}
-                                        </TableCell>
-                                        <TableCell>{`${loan.apr}%`}</TableCell>
-                                        <TableCell>{loan.term}</TableCell>
-                                        <TableCell>{loan.status}</TableCell>
-                                        <TableCell>
-                                            <Button
-                                                data-loan-id={loan.id}
-                                                variant="contained"
-                                                onClick={handleViewDetails}
-                                            >
-                                                View
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                        {loans?.map((loan) => {
+                            const isItemSelected = selectedLoans.includes(loan);
+                            return (
+                                <TableRow
+                                    hover
+                                    key={loan.id}
+                                    aria-checked={isItemSelected}
+                                    selected={isItemSelected}
+                                    onClick={() => handleLoanSelect(loan)}
+                                >
+                                    <TableCell padding="checkbox">
+                                        <Checkbox
+                                            color="primary"
+                                            checked={isItemSelected}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        {toCurrency(loan.amount)}
+                                    </TableCell>
+                                    <TableCell>{`${loan.apr}%`}</TableCell>
+                                    <TableCell>{loan.term}</TableCell>
+                                    <TableCell>{loan.status}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            data-loan-id={loan.id}
+                                            variant="contained"
+                                            onClick={handleViewDetails}
+                                        >
+                                            View
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>

@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 function Home() {
     return (
         <>
-            <Typography variant="h5">
+            <Typography variant="h5" sx={{ marginBottom: 2 }}>
                 Welcome to Loan Amortization App!
             </Typography>
             <Typography component="p">
